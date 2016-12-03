@@ -1,0 +1,9 @@
+config.json
+/node_modules/*
+/bin/*
+npm-debug*
+/pkg/*
+/storage/*
+/typings/*
+/.vscode/*
+yarn*
