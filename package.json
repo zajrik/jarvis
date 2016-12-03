@@ -1,6 +1,16 @@
 {
+  "name": "Jarvis",
+  "version": "1.0.0",
+  "description": "A simple Discord bot that handles some helpful things for me",
+  "main": "bin/bot.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zajrik/jarvis.git"
+  },
+  "author": "Zackary Campbell <zajrik@gmail.com>",
+  "license": "MIT",
   "dependencies": {
-    "yamdbf": "^2.5.2"
+    "yamdbf": "^2.5.5"
   },
   "devDependencies": {
     "@types/node": "^6.0.46",

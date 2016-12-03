@@ -10,4 +10,5 @@ const jarvis: Jarvis = new Jarvis({
 	readyText: 'Ready to serve, sir.\u0007',
 	passive: true
 })
-.start();
+.start()
+.on('disconnect', () => process.exit(100));
