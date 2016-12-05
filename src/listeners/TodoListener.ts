@@ -4,10 +4,10 @@ import { IListener } from '../interfaces/Listener';
 import Jarvis from '../client/Jarvis';
 
 /**
- * Handle processing messages and logging anything
- * that involves a mention for me or includes my username
+ * Handle processing messages and catching any todo
+ * messages that need saving
  */
-export default class MentionListener extends WebhookClient implements IListener
+export default class TodoListener extends WebhookClient implements IListener
 {
 	public constructor(id: string, token: string, options?: ClientOptions)
 	{
