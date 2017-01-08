@@ -17,9 +17,9 @@ export default class EmojiListener implements IListener
 		if (message.author.id !== jarvis.user.id) return;
 		if (!message.content.startsWith('+')) return;
 		message.delete();
-		message.content = message.content.slice(1).trim();
+		const m: string = message.content.slice(1).trim();
 		const parseCustom: RegExp = /\<:[^:]+:(\d+)\>/;
-		const emoji: string = e.which(message.content) || message.content.match(parseCustom)[1];
+		const emoji: string = e.which(m) || parseCustom.test(m) ? m.match(parseCustom)[1] : null;
 		const toReact: Message = (await message.channel
 			.fetchMessages({ limit: 1, before: message.id })).first();
 		if (!emoji || !toReact) return;
