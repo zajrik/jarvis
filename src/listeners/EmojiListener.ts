@@ -19,7 +19,7 @@ export default class EmojiListener implements IListener
 		message.delete();
 		const m: string = message.content.slice(1).trim();
 		const parseCustom: RegExp = /\<:[^:]+:(\d+)\>/;
-		const emoji: string = e.which(m) || parseCustom.test(m) ? m.match(parseCustom)[1] : null;
+		const emoji: string = parseCustom.test(m) ? m.match(parseCustom)[1] : e.which(m);
 		const toReact: Message = (await message.channel
 			.fetchMessages({ limit: 1, before: message.id })).first();
 		if (!emoji || !toReact) return;
