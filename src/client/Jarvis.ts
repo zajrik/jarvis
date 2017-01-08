@@ -1,8 +1,8 @@
-'use strict';
 import { Bot, BotOptions } from 'yamdbf';
 import { ClientOptions, TextChannel, Message } from 'discord.js';
 import MentionListener from '../listeners/MentionListener';
 import TodoListener from '../listeners/TodoListener';
+import EmojiListener from '../listeners/EmojiListener';
 
 /**
  * Extend Bot class to allow for extra properties and
@@ -12,6 +12,7 @@ export default class Jarvis extends Bot
 {
 	private mentionListener: MentionListener;
 	private todoListener: TodoListener;
+	private emojiListener: EmojiListener;
 
 	public jarvisIcon: string;
 
@@ -21,6 +22,7 @@ export default class Jarvis extends Bot
 		const wh: any = (<any> botOptions.config).wh;
 		this.mentionListener = new MentionListener(wh.mention.id, wh.mention.token);
 		this.todoListener = new TodoListener(wh.todo.id, wh.todo.token);
+		this.emojiListener = new EmojiListener();
 
 		this.jarvisIcon = (<any> botOptions.config).icon;
 		this.once('ready', this.ready);
@@ -34,6 +36,7 @@ export default class Jarvis extends Bot
 	{
 		this.on('message', message =>
 		{
+			this.emojiListener.process(this, message);
 			this.mentionListener.process(this, message);
 			this.todoListener.process(this, message);
 		});

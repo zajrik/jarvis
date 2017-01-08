@@ -1,4 +1,3 @@
-'use strict';
 import { Message } from 'discord.js';
 import Jarvis from '../client/Jarvis';
 

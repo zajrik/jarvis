@@ -1,5 +1,5 @@
 {
-  "name": "Jarvis",
+  "name": "jarvis",
   "version": "1.0.0",
   "description": "A simple Discord bot that handles some helpful things for me",
   "main": "bin/bot.js",
@@ -10,7 +10,9 @@
   "author": "Zackary Campbell <zajrik@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "yamdbf": "^2.5.5"
+    "discord.js": "^11.0.0",
+    "node-emoji": "^1.5.0",
+    "yamdbf": "^2.5.7"
   },
   "devDependencies": {
     "@types/node": "^6.0.46",

@@ -1,4 +1,3 @@
-'use strict';
 import { ClientOptions, WebhookClient, Message, TextChannel } from 'discord.js';
 import { IListener } from '../interfaces/Listener';
 import Jarvis from '../client/Jarvis';
@@ -36,7 +35,7 @@ export default class TodoListener extends WebhookClient implements IListener
 		});
 
 		const channel: TextChannel = <TextChannel> message.channel;
-		const output: string = `Sir, I've saved this todo for you:\n_${todo}_`;
+		const output: string = `Sir, I've added this to your todo list:\n_${todo}_`;
 		jarvis.say(channel, output).then((res: Message) => res.delete(30000));
 	}
 

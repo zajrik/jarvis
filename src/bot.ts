@@ -1,4 +1,3 @@
-'use strict';
 import Jarvis from './client/Jarvis';
 const config: any = require('./config.json');
 

@@ -21,9 +21,9 @@ export default class MentionListener extends WebhookClient implements IListener
 	{
 		if (!(message.isMentioned(jarvis.user.id)
 			|| message.content.toLowerCase().includes(jarvis.user.username))
-			|| message.author.bot) return;
+			|| message.author.bot || message.author.id === jarvis.user.id) return;
 
-		await new Promise(resolve => jarvis.setTimeout(() => resolve(), 30000));
+		await new Promise(resolve => jarvis.setTimeout(() => resolve(), 30e3));
 		const messages: Collection<string, Message> = await message.channel.fetchMessages({limit: 20, around: message.id});
 
 		this.sendSlackMessage({
