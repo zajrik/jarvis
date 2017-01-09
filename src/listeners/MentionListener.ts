@@ -1,4 +1,3 @@
-'use strict';
 import { ClientOptions, WebhookClient, Message, Collection } from 'discord.js';
 import { IListener } from '../interfaces/Listener';
 import Jarvis from '../client/Jarvis';

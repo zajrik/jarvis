@@ -1,8 +1,9 @@
 import { Bot, BotOptions } from 'yamdbf';
-import { ClientOptions, TextChannel, Message } from 'discord.js';
+import { ClientOptions, TextChannel, Message, RichEmbed } from 'discord.js';
 import MentionListener from '../listeners/MentionListener';
 import TodoListener from '../listeners/TodoListener';
 import EmojiListener from '../listeners/EmojiListener';
+import BangListener from '../listeners/BangListener';
 
 /**
  * Extend Bot class to allow for extra properties and
@@ -13,6 +14,7 @@ export default class Jarvis extends Bot
 	private mentionListener: MentionListener;
 	private todoListener: TodoListener;
 	private emojiListener: EmojiListener;
+	private bangListener: BangListener;
 
 	public jarvisIcon: string;
 
@@ -23,6 +25,7 @@ export default class Jarvis extends Bot
 		this.mentionListener = new MentionListener(wh.mention.id, wh.mention.token);
 		this.todoListener = new TodoListener(wh.todo.id, wh.todo.token);
 		this.emojiListener = new EmojiListener();
+		this.bangListener = new BangListener();
 
 		this.jarvisIcon = (<any> botOptions.config).icon;
 		this.once('ready', this.ready);
@@ -39,6 +42,7 @@ export default class Jarvis extends Bot
 			this.emojiListener.process(this, message);
 			this.mentionListener.process(this, message);
 			this.todoListener.process(this, message);
+			this.bangListener.process(this, message);
 		});
 	}
 
@@ -47,15 +51,11 @@ export default class Jarvis extends Bot
 	 */
 	public async say(channel: TextChannel, text: string): Promise<Message>
 	{
-		const embed: any = {
-			author: {
-				name: 'Jarvis',
-				icon_url: this.jarvisIcon
-			},
-			color: parseInt('00a4f0', 16),
-			description: text
-		};
+		const embed: RichEmbed = new RichEmbed()
+			.setAuthor('Jarvis', this.jarvisIcon)
+			.setColor('#00a4f0')
+			.setDescription(text);
 
-		return <Message> await channel.sendMessage('', <any> { embed: embed });
+		return <Message> await channel.sendEmbed(embed);
 	}
 }
