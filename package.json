@@ -12,6 +12,7 @@
   "dependencies": {
     "discord.js": "^11.0.0",
     "node-emoji": "^1.5.0",
+    "runes": "^0.4.0",
     "yamdbf": "^2.5.7"
   },
   "devDependencies": {
