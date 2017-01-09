@@ -13,11 +13,11 @@ export default class EmojiListener implements IListener
 	 * all the given emojis and custom emojis to the most recent
 	 * message before the command
 	 */
-	public async process(jarvis: Jarvis, message: Message, id?: string): Promise<any>
+	public async process(jarvis: Jarvis, message: Message, reactOn?: Message): Promise<any>
 	{
 		if (message.author.id !== jarvis.user.id) return;
 		if (!message.content.startsWith('+')) return;
-		if (!id) message.delete();
+		if (!reactOn) message.delete();
 		let m: string = message.content.slice(1).trim();
 		const findCustom: RegExp = /\<:[^:]+:\d+\>/g;
 		const parseCustom: RegExp = /\<:[^:]+:(\d+)\>/;
@@ -30,8 +30,8 @@ export default class EmojiListener implements IListener
 		if (emojis && emojis.length > 0) emoji = e.which(emojis.shift());
 		else if (customEmojis && customEmojis.length > 0) emoji = customEmojis.shift().match(parseCustom)[1];
 
-		const toReact: Message = id ? await message.channel.fetchMessage(id)
-			: (await message.channel.fetchMessages({ limit: 1, before: message.id })).first();
+		const toReact: Message = reactOn ? reactOn : (await message.channel
+			.fetchMessages({ limit: 1, before: message.id })).first();
 		if (!emoji || !toReact) return;
 
 		toReact.react(jarvis.emojis.get(emoji) || e.get(emoji));
@@ -39,7 +39,7 @@ export default class EmojiListener implements IListener
 		if (emojis && emojis.length > 0)
 		{
 			message.content = `+${emojis.join('')}`;
-			this.process(jarvis, message, toReact.id);
+			this.process(jarvis, message, toReact);
 		}
 	}
 }
