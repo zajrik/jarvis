@@ -18,6 +18,14 @@ export default class EmojiListener implements IListener
 		if (message.author.id !== jarvis.user.id) return;
 		if (!message.content.startsWith('+')) return;
 		if (!reactOn) message.delete();
+
+		if (/\+r(\d{1,2})?/.test(message.content))
+		{
+			const quantity: number = parseInt(message.content.match(/\+r(\d{1,2})?/)[1]) || 1;
+			const randEmoji: () => string = () => e.random().emoji;
+			message.content = `+${new Array(quantity).fill(0).map(randEmoji).join(' ')}`;
+		}
+
 		let m: string = message.content.slice(1).trim();
 		const findCustom: RegExp = /\<:[^:]+:\d+\>/g;
 		const parseCustom: RegExp = /\<:[^:]+:(\d+)\>/;
@@ -34,11 +42,19 @@ export default class EmojiListener implements IListener
 			.fetchMessages({ limit: 1, before: message.id })).first();
 		if (!emoji || !toReact) return;
 
-		toReact.react(jarvis.emojis.get(emoji) || e.get(emoji));
-		emojis = emojis.concat(customEmojis);
-		if (emojis && emojis.length > 0)
+		try
 		{
-			message.content = `+${emojis.join('')}`;
+			await toReact.react(jarvis.emojis.get(emoji) || e.get(emoji));
+		}
+		catch (err)
+		{
+			console.log(`Invalid emoji: ${e.get(emoji)}`);
+		}
+
+		emojis = emojis.concat(customEmojis);
+		if (emojis && emojis.length > 0 && emojis.join(' ').trim())
+		{
+			message.content = `+${emojis.join(' ')}`;
 			this.process(jarvis, message, toReact);
 		}
 	}
