@@ -21,7 +21,7 @@ export default class EmojiListener implements IListener
 
 		if (/\+r ?(\d{1,2})?/.test(message.content))
 		{
-			const quantity: number = parseInt(message.content.match(/\+r ?(\d{1,2})?/)[1]) || 1;
+			const quantity: number = Math.min(20, parseInt(message.content.match(/\+r ?(\d{1,2})?/)[1]) || 1);
 			const randEmoji: () => string = () => e.random().emoji;
 			message.content = `+${new Array(quantity).fill(0).map(randEmoji).join(' ')}`;
 		}
