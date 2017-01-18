@@ -3,6 +3,7 @@ import { ClientOptions, TextChannel, Message, RichEmbed } from 'discord.js';
 import MentionListener from '../listeners/MentionListener';
 import TodoListener from '../listeners/TodoListener';
 import EmojiListener from '../listeners/EmojiListener';
+import EmoteListener from '../listeners/EmoteListener';
 import BangListener from '../listeners/BangListener';
 
 /**
@@ -14,6 +15,7 @@ export default class Jarvis extends Bot
 	private mentionListener: MentionListener;
 	private todoListener: TodoListener;
 	private emojiListener: EmojiListener;
+	private emoteListener: EmoteListener;
 	private bangListener: BangListener;
 
 	public jarvisIcon: string;
@@ -25,6 +27,7 @@ export default class Jarvis extends Bot
 		this.mentionListener = new MentionListener(wh.mention.id, wh.mention.token);
 		this.todoListener = new TodoListener(wh.todo.id, wh.todo.token);
 		this.emojiListener = new EmojiListener();
+		this.emoteListener = new EmoteListener();
 		this.bangListener = new BangListener();
 
 		this.jarvisIcon = (<any> botOptions.config).icon;
@@ -40,6 +43,7 @@ export default class Jarvis extends Bot
 		this.on('message', message =>
 		{
 			this.emojiListener.process(this, message);
+			this.emoteListener.process(this, message);
 			this.mentionListener.process(this, message);
 			this.todoListener.process(this, message);
 			this.bangListener.process(this, message);
