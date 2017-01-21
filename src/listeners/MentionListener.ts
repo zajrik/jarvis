@@ -19,7 +19,8 @@ export default class MentionListener extends WebhookClient implements IListener
 	public async process(jarvis: Jarvis, message: Message): Promise<void>
 	{
 		if (!(message.isMentioned(jarvis.user.id)
-			|| message.content.toLowerCase().includes(jarvis.user.username))
+			|| message.content.includes(jarvis.user.id))
+			|| message.content.toLowerCase().includes(jarvis.user.username)
 			|| message.author.bot || message.author.id === jarvis.user.id) return;
 
 		await new Promise(resolve => jarvis.setTimeout(() => resolve(), 30e3));
